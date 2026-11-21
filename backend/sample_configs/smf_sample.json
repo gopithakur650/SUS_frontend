@@ -1,0 +1,32 @@
+{
+  "smf": {
+    "sbi": {
+      "scheme": "http",
+      "server": {
+        "addr": "0.0.0.0",
+        "port": 7777
+      },
+      "client": {
+        "nrf": {
+          "uri": "http://127.0.0.10:7777"
+        }
+      }
+    },
+    "pfcp": {
+      "server": {
+        "addr": "0.0.0.0"
+      }
+    },
+    "gtpu": {
+      "server": {
+        "addr": "0.0.0.0"
+      }
+    },
+    "subnet": [
+      {
+        "dnn": "internet",
+        "cidr": "10.45.0.0/16"
+      }
+    ]
+  }
+}

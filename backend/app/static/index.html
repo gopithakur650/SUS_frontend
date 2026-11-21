@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SUSignal — 5G Security Intelligence</title>
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand-block">
+      <img class="brand-mark" src="/assets/SUS_logo.jpeg" alt="SUSignal logo" />
+      <strong>SUSignal</strong>
+      <button class="sidebar-collapse" id="sidebarCollapse" title="Collapse sidebar">‹</button>
+    </div>
+    <nav class="sidebar-nav" aria-label="Primary navigation">
+      <div class="nav-group">
+        <span>MAIN</span>
+        <button class="nav-item active" data-page="overview"><b>▦</b><em>Overview</em></button>
+        <button class="nav-item" data-page="scanner"><b>＋</b><em>Network Scanner</em></button>
+        <button class="nav-item" data-page="findings"><b>△</b><em>Security Findings</em></button>
+        <button class="nav-item" data-page="topology"><b>⌘</b><em>Network Topology</em></button>
+      </div>
+      <div class="nav-group">
+        <span>SECURITY</span>
+        <button class="nav-item" data-page="rules"><b>≡</b><em>Rule Catalog</em></button>
+        <button class="nav-item" data-page="remediation"><b>✓</b><em>Remediation Center</em></button>
+        <button class="nav-item" data-page="analytics"><b>◫</b><em>Risk Analytics</em></button>
+        <button class="nav-item" data-page="history"><b>◷</b><em>Scan History</em></button>
+      </div>
+      <div class="nav-group">
+        <span>SYSTEM</span>
+        <button class="nav-item" data-page="reports"><b>▧</b><em>Reports</em></button>
+        <button class="nav-item" data-page="settings"><b>⚙</b><em>Settings</em></button>
+      </div>
+    </nav>
+  </aside>
+
+  <div class="app-shell">
+    <header class="top-header">
+      <button class="mobile-menu" id="mobileMenu">MENU</button>
+      <h1 id="pageTitle">SECURITY DASHBOARD</h1>
+      <div class="header-tools">
+        <label class="header-search"><span>⌕</span><input id="globalSearch" type="search" placeholder="SEARCH" /></label>
+        <button class="connection" id="connectionStatus"><i></i><span>Connecting</span></button>
+        <button class="square-button" id="themeToggle" title="Toggle theme">◐</button>
+        <button class="square-button" id="exportButton" title="Export report">⇩</button>
+        <button class="square-button" id="settingsButton" title="Settings">⚙</button>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section class="page active" id="overviewPage">
+        <div class="page-heading">
+          <div>
+            <p><span>5G SECURITY INTELLIGENCE</span> / SUSignal</p>
+            <h2>SECURITY DASHBOARD</h2>
+          </div>
+          <div class="heading-actions">
+            <select id="scanFilter" title="Scan selector"><option value="">LATEST SCAN</option></select>
+            <select id="nfFilter" title="Network function filter"><option value="">ALL NETWORK FUNCTIONS</option></select>
+            <button class="primary-action" id="newScanButton">＋ NEW SCAN</button>
+          </div>
+        </div>
+        <div class="metric-grid">
+          <article class="metric-card yellow">
+            <div class="metric-top"><span class="metric-icon">◎</span><small id="healthStatus">NO DATA</small></div>
+            <div class="metric-value"><strong id="securityScore">—</strong><span class="metric-unit">/ 100</span></div>
+            <label>SECURITY SCORE</label>
+            <div class="mini-progress"><i id="scoreProgress"></i></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top"><span class="metric-icon">△</span><small>SELECTED SCAN</small></div>
+            <div class="metric-value"><strong id="totalFindings">—</strong></div>
+            <label>TOTAL FINDINGS</label>
+            <div class="metric-meta"><span id="criticalFindings">— CRITICAL</span><span id="highFindings">— HIGH</span></div>
+          </article>
+          <article class="metric-card coral">
+            <div class="metric-top"><span class="metric-icon">!</span><small>HIGH PRIORITY</small></div>
+            <div class="metric-value"><strong id="criticalCardCount">—</strong></div>
+            <label>CRITICAL FINDINGS</label>
+            <div class="metric-meta"><span id="lastScan">NO SCAN DATA</span></div>
+          </article>
+          <article class="metric-card teal">
+            <div class="metric-top"><span class="metric-icon">≡</span><small>SCAN COVERAGE</small></div>
+            <div class="metric-value"><strong id="rulesChecked">—</strong></div>
+            <label>RULES EVALUATED</label>
+            <div class="metric-meta"><span id="coverageMeta">0 RULES TOTAL</span></div>
+          </article>
+        </div>
+
+        <div class="analytics-grid">
+          <section class="chart-card trend-card">
+            <div class="chart-header"><div><span>01</span><h3>SECURITY SCORE TREND</h3></div><small>COMPARABLE NF SCANS</small></div>
+            <div class="trend-chart" id="trendChart"></div>
+          </section>
+          <section class="chart-card severity-card">
+            <div class="chart-header"><div><span>02</span><h3>VULNERABILITY DISTRIBUTION</h3></div><div class="micro-toggle" id="severityView"><button class="active" data-severity-view="bars">BAR</button><button data-severity-view="donut">DONUT</button></div></div>
+            <div class="severity-chart" id="severityChart"></div>
+          </section>
+          <section class="chart-card matrix-card">
+            <div class="chart-header"><div><span>03</span><h3>NETWORK FUNCTION RISK</h3></div><small>SIX CORE FUNCTIONS</small></div>
+            <div class="nf-matrix" id="nfMatrix"></div>
+          </section>
+          <section class="chart-card category-card">
+            <div class="chart-header"><div><span>04</span><h3>VULNERABILITY CATEGORIES</h3></div><small>CURRENT SCAN</small></div>
+            <div class="category-chart" id="categoryChart"></div>
+          </section>
+          <section class="chart-card risks-card">
+            <div class="chart-header"><div><span>05</span><h3>TOP SECURITY RISKS</h3></div><small>SEVERITY SORTED</small></div>
+            <div class="risk-list" id="riskList"></div>
+          </section>
+          <section class="chart-card coverage-card">
+            <div class="chart-header"><div><span>06</span><h3>RULE COVERAGE</h3></div><small id="coverageCount">16 AVAILABLE</small></div>
+            <div class="coverage-chart" id="coverageChart"></div>
+          </section>
+        </div>
+
+        <div class="lower-grid">
+          <section class="chart-card frequency-card">
+            <div class="chart-header"><div><span>07</span><h3>FREQUENTLY FLAGGED RULES</h3></div><small>AVAILABLE HISTORY</small></div>
+            <div class="frequency-chart" id="frequencyChart"></div>
+          </section>
+          <section class="chart-card activity-card">
+            <div class="chart-header"><div><span>08</span><h3>SCAN ACTIVITY</h3></div><small>REAL TIMESTAMPS</small></div>
+            <div class="activity-timeline" id="activityTimeline"></div>
+          </section>
+        </div>
+
+        <aside class="analytics-panel" id="analyticsPanel" hidden>
+          <div id="remediationList"></div>
+          <div id="historyList"></div>
+        </aside>
+      </section>
+
+      <section class="page topology-page" id="topologyPage">
+        <div class="page-heading compact">
+          <div><p><span>5G CORE</span> / LIVE TOPOLOGY VIEW</p><h2>NETWORK TOPOLOGY</h2></div>
+        </div>
+        <section class="canvas-panel" id="canvasPanel">
+          <div class="canvas-topbar">
+            <div class="segmented" id="canvasViews">
+              <button class="active" data-canvas-view="network">OVERVIEW</button>
+              <button data-canvas-view="network">NETWORK FUNCTIONS</button>
+              <button data-canvas-view="risk">SECURITY FINDINGS</button>
+              <button data-canvas-view="connections">CONNECTIONS</button>
+            </div>
+            <div class="canvas-actions">
+              <button class="icon-button" id="fitView">FIT</button><button class="icon-button" id="zoomOut">−</button><button class="icon-button" id="zoomIn">＋</button><button class="icon-button" id="toggleLabels">Aa</button>
+            </div>
+          </div>
+          <div class="topology-shell" id="topologyShell">
+            <svg id="topology" viewBox="0 0 900 700" role="img" aria-label="5G core network topology">
+              <defs><pattern id="dotGrid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.8"></circle></pattern></defs>
+              <rect width="900" height="700" fill="url(#dotGrid)"></rect>
+              <g id="camera"><g id="connections"></g><g id="nodes"></g></g>
+            </svg>
+            <div class="canvas-scanline" id="canvasScanline"></div>
+            <div class="canvas-legend"><span><i class="secure"></i>SECURE</span><span><i class="warning"></i>WARNING</span><span><i class="critical"></i>CRITICAL</span><span><i class="unknown"></i>UNKNOWN</span></div>
+            <div class="mode-toolbar" id="modeToolbar"><span>MODE</span><button class="active" data-mode="network">NETWORK</button><button data-mode="risk">RISK</button><button data-mode="rules">RULES</button><button data-mode="connections">CONNECTIONS</button></div>
+            <button class="scan-fab" id="openScan">＋ NEW SCAN</button>
+          </div>
+        </section>
+      </section>
+
+      <section class="page utility-page" id="utilityPage">
+        <div class="page-heading compact"><div><p id="utilityKicker"><span>SECURITY</span> / SUSignal</p><h2 id="utilityTitle">RULE CATALOG</h2></div></div>
+        <div class="utility-content" id="utilityContent"></div>
+      </section>
+    </main>
+  </div>
+
+  <section class="scan-panel neo-drawer" id="scanPanel" aria-label="Scan configuration">
+    <div class="drawer-header"><div><span>CONFIGURATION SCANNER</span><h2>START ANALYSIS</h2></div><button class="square-button" data-close="scanPanel">×</button></div>
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" accept=".yaml,.yml,.json" />
+      <b>DROP CONFIGURATION FILE</b><span id="selectedFilename">YAML OR JSON · 5 MB MAX</span>
+      <button class="secondary-action" id="browseButton">BROWSE FILES</button>
+    </div>
+    <div class="sample-section"><label>AVAILABLE SAMPLES</label><select id="sampleSelect"><option value="">SELECT CONFIGURATION</option><option value="amf_vulnerable.yaml">AMF · VULNERABLE · YAML</option><option value="amf_hardened.yaml">AMF · HARDENED · YAML</option><option value="smf_sample.json">SMF · VULNERABLE · JSON</option></select></div>
+    <div class="scan-state" id="scanState">READY TO ANALYZE</div>
+    <div class="progress-track" id="progressTrack"><i></i></div>
+    <button class="primary-action scan-button" id="startScan" disabled>START SCAN</button>
+  </section>
+
+  <aside class="inspector neo-drawer" id="inspector" aria-label="Finding details">
+    <div class="drawer-header"><div><span id="inspectorEyebrow">FINDING</span><h2 id="inspectorTitle">FINDING DETAIL</h2></div><button class="square-button" data-close="inspector">×</button></div>
+    <div id="inspectorContent"></div>
+  </aside>
+
+  <section class="modal" id="catalogModal" aria-label="Rule catalog"><div class="modal-backdrop" data-close="catalogModal"></div><div class="modal-content catalog-content"><div class="drawer-header"><div><span>3GPP TS 33.501</span><h2>SECURITY RULE CATALOG</h2></div><button class="square-button" data-close="catalogModal">×</button></div><div class="catalog-controls"><input type="search" id="ruleSearch" placeholder="SEARCH RULES" /><select id="ruleNF"><option value="">ALL NETWORK FUNCTIONS</option></select><select id="ruleSeverity"><option value="">ALL SEVERITIES</option><option>CRITICAL</option><option>HIGH</option><option>MEDIUM</option><option>LOW</option></select></div><div class="rule-table" id="ruleTable"></div></div></section>
+  <section class="modal" id="historyModal" aria-label="Scan history"><div class="modal-backdrop" data-close="historyModal"></div><div class="modal-content history-modal-content"><div class="drawer-header"><div><span>PERSISTED RECORDS</span><h2>SCAN HISTORY</h2></div><button class="square-button" data-close="historyModal">×</button></div><div class="history-table" id="historyTable"></div></div></section>
+  <section class="modal" id="exportModal" aria-label="Export report"><div class="modal-backdrop" data-close="exportModal"></div><div class="modal-content export-content"><div class="drawer-header"><div><span>REPORT EXPORT</span><h2>EXPORT CURRENT SCAN</h2></div><button class="square-button" data-close="exportModal">×</button></div><button class="export-option" id="downloadJson"><span>JSON</span><small>Machine-readable scan data</small></button><button class="export-option" id="printReport"><span>HTML / PDF</span><small>Print-friendly browser report</small></button></div></section>
+  <div class="toast" id="toast"></div>
+  <script src="/assets/app.js"></script>
+</body>
+</html>
